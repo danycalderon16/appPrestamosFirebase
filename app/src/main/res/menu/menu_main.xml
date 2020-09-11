@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="calderon.appprestamos.activities.MainActivity">
+    <item
+        android:id="@+id/action_complete"
+        android:title="Completado"
+        android:icon="@drawable/ic_assessment_black_24dp"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_logout"
+        android:title="Salir"
+        app:showAsAction="collapseActionView"/>
+</menu>

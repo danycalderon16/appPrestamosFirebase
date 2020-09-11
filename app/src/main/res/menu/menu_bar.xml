@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/navigation_songs"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom"
+        android:contentDescription="add/"
+        android:title="Songs"/>
+
+    <item
+        android:id="@+id/navigation_albums"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom"
+        android:title="Albums"
+        android:contentDescription="add/"/>
+
+    <item
+        android:id="@+id/navigation_artists"
+        app:showAsAction="ifRoom"
+        android:contentDescription="add/"
+        android:icon="@drawable/ic_add"
+        android:title="Artists"/>
+</menu>

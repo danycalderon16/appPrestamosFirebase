@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "465079276206",
+    "firebase_url": "https://appprestamos-a6556.firebaseio.com",
+    "project_id": "appprestamos-a6556",
+    "storage_bucket": "appprestamos-a6556.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465079276206:android:11d03c5608220e4440533f",
+        "android_client_info": {
+          "package_name": "calderon.appprestamos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465079276206-drchia6b8h6gsjfb3mkbh159gfsdo3q1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "calderon.appprestamos",
+            "certificate_hash": "3434423406f10a9bbc896efc25342c705afda5c1"
+          }
+        },
+        {
+          "client_id": "465079276206-ifjmb7919qqiio52qa8jd498d3c6g6cg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgKhYbjU3dgmj2PKl9IWL3GJVFZRMMIA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465079276206-ifjmb7919qqiio52qa8jd498d3c6g6cg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

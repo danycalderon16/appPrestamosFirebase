@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
+    android:paddingTop="5dp">
+    <FrameLayout
+        android:id="@+id/root_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_personas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:focusable="true"
+            android:clickable="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="3dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="2dp"
+            android:foreground="?android:attr/selectableItemBackground">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+                <View
+                    android:id="@+id/noteColorView"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.02"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/quincenal"
+                    android:padding="2dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight=".88"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/nombre"
+                            android:layout_width="0dp"
+                            android:layout_weight=".4"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre de la persona"
+                            android:padding="1dp"
+                            android:textColor="#4c4c4c"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/fecha"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".6"
+                            android:ellipsize="end"
+                            android:maxLines="3"
+                            android:padding="1dp"
+                            android:text="17 de Noviembre del 2020"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/blue_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".20"
+                            android:text="Cantidad"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/cantidad"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_weight=".16"
+                            android:text="$3000"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".15"
+                            android:text="Saldo"
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/saldo"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".16"
+                            android:textAlignment="center"
+                            android:textColor="@color/red_primary"
+                            android:text="$2000"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".16"
+                            android:textAlignment="textEnd"
+                            android:text="Abonos"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/abonos"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".13"
+                            android:text="0/7"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</LinearLayout>

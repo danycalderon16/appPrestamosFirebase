@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.DetailsActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        android:background="@color/white"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:paddingRight="20dp"
+                    android:layout_width="wrap_content"         android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="35sp" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="4dp"
+            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_margin="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha"
+                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/text"
+                    android:id="@+id/changeMethod"/>
+                <TextView
+                    android:id="@+id/fechaDetails"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/text_secondary"
+                    android:layout_marginTop="2dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="16 de noviembre del 2020"
+                    android:textSize="18sp" />
+            //fecha
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:text="Saldo inicial"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:textSize="18sp"
+                        android:textColor="@color/blue_primary_dark"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/saldoInicial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="$3000"
+                        android:textAlignment="center"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="18sp" />
+                </LinearLayout> //saldo inicial
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Abonado"
+                        android:textColor="@color/green_primary_dark"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:textColor="@color/text_secondary"
+                        android:id="@+id/abonado_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="$50"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                </LinearLayout> //abonado
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight=".5">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red_primary"
+                        android:text="Saldo"
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/saldodDetails"
+                        android:textColor="@color/text_secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="$250"
+                        android:textSize="18sp" />
+                </LinearLayout> //cantidad
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight=".5">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text"
+                        android:text="Prestamo"
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/cantidadDetails"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:layout_height="wrap_content"
+                        android:text="$3000"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="18sp" />
+                </LinearLayout> //Prestamo
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Abonos"
+                        android:textColor="@color/text"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:id="@+id/abonosDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_secondary"
+                        android:text="0/7"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                </LinearLayout> //saldo inicial
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tipo"
+                        android:textColor="@color/text"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:id="@+id/tipo_de_pago"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Semanal"
+                        android:textColor="@color/text_secondary"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
+                </LinearLayout> //tipo de pago
+            </LinearLayout>
+            <View
+                android:layout_margin="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_primary_light"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".15"
+                    android:gravity="center_vertical"
+                    android:text="Fecha"
+                    android:textSize="16sp"
+                    android:textColor="@color/text"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/fechaDetailsPick"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".35"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:padding="2dp"
+                    android:textColor="@color/text_secondary"
+                    android:text="16 de nov del 2020" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="7dp"
+                    android:textAlignment="center"
+                    android:text="Abono"
+                    android:textColor="@color/text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/abono"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:inputType="number"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_secondary"
+                    android:padding="2dp"
+                    android:text="" />
+            </LinearLayout>
+        </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAbono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_add"
+        android:visibility="invisible"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
