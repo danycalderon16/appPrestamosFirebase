@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "465079276206-4c31fcai9fdq2j5fiv342b0647mmtcel.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "calderon.appprestamos",
+            "certificate_hash": "e14b7640d2bafe3de27f5b8c0e9195740d5c6c7c"
+          }
+        },
+        {
           "client_id": "465079276206-drchia6b8h6gsjfb3mkbh159gfsdo3q1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
