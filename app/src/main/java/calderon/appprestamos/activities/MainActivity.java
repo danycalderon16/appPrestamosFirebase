@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SharedPreferences preferences;
 
+    private TextView calculadora;
+    private int total = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setRecyclerView();
+        calculadora = findViewById(R.id.tv_calculadora);
+        calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
+        calculadora.setOnClickListener(this);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(new View.OnLongClickListener() {
@@ -114,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .Builder<Persona>()
                 .setQuery(query, Persona.class)
                 .build();
-        myAdapterPersona = new MyAdapterPersona(options,this, new MyAdapterPersona.addClickListener() {
+        myAdapterPersona = new MyAdapterPersona(options, this, new MyAdapterPersona.addClickListener() {
             @Override
             public void onItemClick(Persona persona, int position) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
@@ -123,6 +129,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // To retrieve object in second Activity
                 getIntent().getSerializableExtra("MyClass");
                 startActivity(intent);
+            }
+        },
+        new MyAdapterPersona.addClickListener() {
+            @Override
+            public void onItemClick(Persona persona, int position) {
+                total += persona.getMonto();
+                calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
+                Log.i("///////////////////77","$"+total);
             }
         },
         new MyAdapterPersona.addClickListener() {
@@ -163,14 +177,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .show();
             }
         }).attachToRecyclerView(recyclerView);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         return true;
     }
 
@@ -210,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -238,6 +249,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             dialog.show(getSupportFragmentManager(), "tag");
+        }
+        if(v.getId() == R.id.tv_calculadora){
+            total = 0;
+            calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
+            Log.i("///////////////////77","$"+total);
         }
     }
 

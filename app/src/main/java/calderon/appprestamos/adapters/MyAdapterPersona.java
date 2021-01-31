@@ -48,12 +48,18 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
 
     private Activity activity;
     private addClickListener listener;
+    private addClickListener listener_calculadora;
     private addClickListener longListener;
 
-    public MyAdapterPersona(@NonNull FirestoreRecyclerOptions<Persona> options, Activity activity ,addClickListener listener, addClickListener longListener) {
+    public MyAdapterPersona(@NonNull FirestoreRecyclerOptions<Persona> options,
+                            Activity activity ,
+                            addClickListener listener,
+                            addClickListener listener_calculadora,
+                            addClickListener longListener) {
         super(options);
         this.activity = activity;
         this.listener = listener;
+        this.listener_calculadora = listener_calculadora;
         this.longListener = longListener;
         prefsID = activity.getSharedPreferences("id-"+user.getUid(), Context.MODE_PRIVATE);
     }
@@ -71,10 +77,16 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         if(tipo.equals(QUINCENAL))
             viewHolder.view.setBackgroundResource(R.color.quincenal);
 
-        viewHolder.card.setOnClickListener(new View.OnClickListener() {
+        viewHolder.nombre.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onItemClick(persona, position);
+            }
+        });
+        viewHolder.abonos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener_calculadora.onItemClick(persona, position);
             }
         });
         viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
@@ -130,7 +142,6 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                 showConfirmDeleteDiaglog();
                 return true;
             }
-
             return false;
         }
 

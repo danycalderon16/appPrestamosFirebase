@@ -223,7 +223,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                goMain(this);
+                //goMain(this);
+                onBackPressed();
                 return true;
             case R.id.action_complete:
                 addAbonoCompleted();
