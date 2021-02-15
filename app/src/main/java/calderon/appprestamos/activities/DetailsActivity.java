@@ -190,7 +190,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public boolean onLongClick(View view) {
                 changeMethod();
-                Toast.makeText(DetailsActivity.this, "Ha cambiado forma de pago", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -209,6 +208,18 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void changeMethod() {
+        String new_type = tvTipo.getText().toString().equals(SEMANAL) ? QUINCENAL : SEMANAL;
+        Log.i("id///////id",id+"-"+tvTipo.getText().toString()+"-"+new_type);
+        userReference
+                .collection(PRESTAMOS)
+                .document(id+"")
+                .update(TIPO,new_type)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(DetailsActivity.this, "Ha cambiado forma de pago", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -273,7 +284,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                                                             String fecha = task.getResult().getString(FECHA);
-                                                            //String formatDate = dateShortToLong(fecha);
 
                                                             if (documentSnapshot.exists()) {
                                                                 String nombre = documentSnapshot.getString(NOMBRE);
@@ -308,13 +318,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                                                                             }
                                                                         });
                                                             }
-
                                                         }
                                                     });
-
                                                 }
                                             });
-
                                 }
                             });
                     }
