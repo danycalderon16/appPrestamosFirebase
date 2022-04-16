@@ -227,6 +227,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_complete).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
         menu.findItem(R.id.action_logout).setVisible(false);
+        menu.findItem(R.id.action_deletes_items).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -41,6 +41,7 @@ public class Util {
     public final static String USUARIOS = "usuarios";
     public final static String PRESTAMOS = "prestamos";
     public final static String COMPLETADOS = "completados";
+    public final static String BORRADOS = "borrados";
     public final static String PERSONA = "Persona";
     public final static String ABONOS = "abonos";
     public final static String ID = "id";

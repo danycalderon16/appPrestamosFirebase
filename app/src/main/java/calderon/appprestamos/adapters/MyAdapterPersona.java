@@ -27,13 +27,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import calderon.appprestamos.R;
 import calderon.appprestamos.models.Persona;
@@ -54,7 +58,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     private addClickListener longListener;
 
     public MyAdapterPersona(@NonNull FirestoreRecyclerOptions<Persona> options,
-                            Activity activity ,
+                            Activity activity,
                             addClickListener listener,
                             addClickListener listener_calculadora,
                             addClickListener longListener) {
@@ -63,24 +67,25 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         this.listener = listener;
         this.listener_calculadora = listener_calculadora;
         this.longListener = longListener;
-        prefsID = activity.getSharedPreferences("id-"+user.getUid(), Context.MODE_PRIVATE);
+        prefsID = activity.getSharedPreferences("id-" + user.getUid(), Context.MODE_PRIVATE);
     }
 
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position, @NonNull final Persona persona) {
         viewHolder.nombre.setText(persona.getNombre());
-        viewHolder.prestamo.setText(String.format(Locale.getDefault(),"$%d",persona.getCantidadPrestada()));
+        viewHolder.prestamo.setText(String.format(Locale.getDefault(), "$%d", persona.getCantidadPrestada()));
         viewHolder.fecha.setText(persona.getFecha());
-        viewHolder.saldo.setText(String.format(Locale.getDefault(),"$%d",persona.getSaldo()));
-        viewHolder.abonos.setText(String.format(Locale.getDefault(),"%d/%d",persona.getAbonos(), persona.getPlazos()));
-        viewHolder.saldoInicial.setText(String.format(Locale.getDefault(),"%d",persona.getPlazos()*persona.getMonto()));
-        viewHolder.abonado.setText(String.format(Locale.getDefault(),"%d",persona.getAbonado()));
+        viewHolder.saldo.setText(String.format(Locale.getDefault(), "$%d", persona.getSaldo()));
+        viewHolder.abono.setText(String.format(Locale.getDefault(), "$%d", persona.getMonto()));
+        viewHolder.abonos.setText(String.format(Locale.getDefault(), "%d/%d", persona.getAbonos(), persona.getPlazos()));
+        viewHolder.saldoInicial.setText(String.format(Locale.getDefault(), "$%d", persona.getPlazos() * persona.getMonto()));
+        viewHolder.abonado.setText(String.format(Locale.getDefault(), "$%d", persona.getAbonado()));
         String tipo = persona.getTipo();
         viewHolder.hideLy.setVisibility(persona.isExpanded() ? View.VISIBLE : View.GONE);
-        if(tipo.equals(SEMANAL))
+        if (tipo.equals(SEMANAL))
             viewHolder.view.setBackgroundResource(R.color.semanal);
-        if(tipo.equals(QUINCENAL))
+        if (tipo.equals(QUINCENAL))
             viewHolder.view.setBackgroundResource(R.color.quincenal);
 
         viewHolder.nombre.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +97,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         viewHolder.fecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean expanded =  persona.isExpanded();
+                boolean expanded = persona.isExpanded();
                 persona.setExpanded(!expanded);
                 notifyItemChanged(position);
             }
@@ -120,12 +125,13 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
-        implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+            implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         TextView nombre;
         TextView prestamo;
         TextView fecha;
         TextView saldo;
         TextView abonos;
+        TextView abono;
         TextView saldoInicial;
         TextView abonado;
         CardView card;
@@ -139,6 +145,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
             fecha = itemView.findViewById(R.id.fecha);
             saldo = itemView.findViewById(R.id.saldo);
             abonos = itemView.findViewById(R.id.abonos);
+            abono = itemView.findViewById(R.id.tv_hd_abono);
             saldoInicial = itemView.findViewById(R.id.tv_hd_saldo_inicial);
             abonado = itemView.findViewById(R.id.tv_hd_abonado);
             view = itemView.findViewById(R.id.noteColorView);
@@ -150,22 +157,22 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             MenuInflater inflater = activity.getMenuInflater();
-            inflater.inflate(R.menu.meno_delete,menu);
-            for (int i=0;i<menu.size();i++){
+            inflater.inflate(R.menu.meno_delete, menu);
+            for (int i = 0; i < menu.size(); i++) {
                 menu.getItem(i).setOnMenuItemClickListener(this);
             }
         }
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            if (item.getItemId() == R.id.delete){
+            if (item.getItemId() == R.id.delete) {
                 showConfirmDeleteDiaglog();
                 return true;
             }
             return false;
         }
 
-        public void showConfirmDeleteDiaglog(){
+        public void showConfirmDeleteDiaglog() {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setCancelable(true);
             builder.setMessage("¿Desea borrar prestamo?");
@@ -176,6 +183,67 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                             deleteInBD(getAdapterPosition());
                         }
                     });
+            builder.setNeutralButton("TEST", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final String id = getSnapshots().getSnapshot(getAdapterPosition()).getReference().getId();
+
+
+                    DocumentReference doc = db.collection(USUARIOS)
+                            .document(user.getUid())
+                            .collection(PRESTAMOS)
+                            .document(id);
+                    doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    DocumentReference docRef = db.collection(USUARIOS)
+                                            .document(user.getUid())
+                                            .collection(BORRADOS)
+                                            .document(id);
+                                    docRef.set(document.getData()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            int  noAbobos = 0;
+                                            noAbobos = document.getLong(ABONOS).intValue();
+                                            Log.i("#########", "DocumentSnapshot data: " + document.getData());
+                                            int finalNoAbobos = noAbobos;
+                                            doc.collection(ABONOS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    int i = 0;
+                                                    while(i<finalNoAbobos){
+                                                        String idRef = task.getResult().getDocuments().get(i).getId();
+                                                        docRef.collection(ABONOS)
+                                                                .document(idRef)
+                                                                .set(task.getResult().getDocuments().get(i).getData())
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                    Log.i("### abono agregado bo","exito");
+
+                                                                    }
+                                                                });
+                                                        i++;
+                                                    }
+                                                }
+                                            });
+                                            Log.i("### borrado","exito");
+
+                                        }
+                                    });
+                                } else {
+                                    Log.i("#########", "No such document");
+                                }
+                            } else {
+                                Log.i("#########", "get failed with ", task.getException());
+                            }
+                        }
+                    });
+                }
+            });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -219,23 +287,23 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                         map.put(TOTAL_GANAR, totalGanar);
 
                         final List<String> ids = getIDFromSP(prefsID);
-                        Log.i("$$$$$$",ids.toString());
+                        Log.i("$$$$$$", ids.toString());
                         for (int i = 0; i < ids.size(); i++) {
                             if (ids.get(i).equals(id))
                                 ids.remove(i);
                         }
-                        Log.i("$$$$$$ despues",ids.toString());
+                        Log.i("$$$$$$ despues", ids.toString());
 
                         db.collection(USUARIOS).document(user.getUid()).update(map)
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Log.i("///////////7","Atualizado");
+                                        Log.i("///////////7", "Atualizado");
                                         getSnapshots().getSnapshot(position).getReference().delete();
                                         //Toast.makeText(activity, , Toast.LENGTH_SHORT).show();
                                         View v = (activity).findViewById(R.id.fab);
-                                        Snackbar.make(v,"Borrado exitoso",Snackbar.LENGTH_SHORT).show();
-                                        saveIDInSP(prefsID,ids);
+                                        Snackbar.make(v, "Borrado exitoso", Snackbar.LENGTH_SHORT).show();
+                                        saveIDInSP(prefsID, ids);
                                     }
                                 });
                     }
@@ -248,7 +316,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         void onCallback(Persona persona, String id);
     }
 
-    private void getNumbersFromDB(final MyCallbackPerosana callback, final int position){
+    private void getNumbersFromDB(final MyCallbackPerosana callback, final int position) {
         final String id = getSnapshots().getSnapshot(position).getReference().getId();
         db.collection(USUARIOS)
                 .document(user.getUid())
@@ -258,9 +326,9 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if(document.exists()){
+                            if (document.exists()) {
                                 int plazos = document.getLong(PLAZOS).intValue();
                                 int abonado = document.getLong(ABONADO).intValue();
                                 int cantidad = document.getLong(CANTIDAD_PRESTADA).intValue();
@@ -268,7 +336,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                                 int monto = document.getLong(MONTO).intValue();
                                 int saldo = document.getLong(SALDO).intValue();
 
-                                callback.onCallback( new Persona(cantidad,saldo,abonos_dados,monto,plazos,abonado), id);
+                                callback.onCallback(new Persona(cantidad, saldo, abonos_dados, monto, plazos, abonado), id);
                             } else
                                 Log.d("########", "No such document");
                         } else
@@ -278,28 +346,28 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     }
 
     public interface MyCallbackCifras {
-        void  onCallback(int[] cifras);
+        void onCallback(int[] cifras);
     }
 
-    private void getCifras(final MyCallbackCifras callbackCifras){
+    private void getCifras(final MyCallbackCifras callbackCifras) {
         db.collection(USUARIOS).document(user.getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()){
+                        if (documentSnapshot.exists()) {
                             int t = documentSnapshot.getLong(TOTAL).intValue();
                             int tg = documentSnapshot.getLong(TOTAL_GANAR).intValue();
                             int tr = documentSnapshot.getLong(TOTAL_RECUPERAR).intValue();
 
-                            int cifras[] = {t,tg,tr};
+                            int cifras[] = {t, tg, tr};
                             callbackCifras.onCallback(cifras);
                         }
                     }
                 });
     }
 
-    public interface addClickListener{
+    public interface addClickListener {
         void onItemClick(Persona persona, int position);
     }
 
