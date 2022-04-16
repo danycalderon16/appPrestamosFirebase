@@ -13,6 +13,7 @@ public class Persona  implements Serializable {
     private int monto; // monto del abono
     private int plazos; // número de abonos que se tienen que dar
     private int abonado; // cantidad acumulada de abonos
+    private boolean expanded;
 
     public Persona() {
     }
@@ -29,6 +30,7 @@ public class Persona  implements Serializable {
         this.monto = monto;
         this.plazos = plazos;
         this.abonado = abonado;
+        this.expanded = false;
     }
 
     public int getId() {
@@ -125,5 +127,13 @@ public class Persona  implements Serializable {
                 ", plazos=" + plazos +
                 ", abonado=" + abonado +
                 '}';
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

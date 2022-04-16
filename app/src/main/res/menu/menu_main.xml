@@ -8,6 +8,10 @@
         android:icon="@drawable/ic_assessment_black_24dp"
         app:showAsAction="ifRoom"/>
     <item
+        android:id="@+id/action_deletes_items"
+        android:title="Borrados"
+        app:showAsAction="collapseActionView"/>
+    <item
         android:id="@+id/action_logout"
         android:title="Salir"
         app:showAsAction="collapseActionView"/>

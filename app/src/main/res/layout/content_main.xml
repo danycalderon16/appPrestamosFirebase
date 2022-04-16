@@ -3,44 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <FrameLayout
         android:id="@+id/root_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_personas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:focusable="true"
             android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="3dp"
             app:cardElevation="3dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true"
-            app:contentPadding="2dp"
-            android:foreground="?android:attr/selectableItemBackground">
+            app:contentPadding="2dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:orientation="horizontal">
+
                 <View
                     android:id="@+id/noteColorView"
                     android:layout_width="0dp"
-                    android:layout_weight="0.02"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="4dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="0.02"
                     android:background="@color/quincenal"
                     android:padding="2dp" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -52,13 +57,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/nombre"
                             android:layout_width="0dp"
-                            android:layout_weight=".4"
                             android:layout_height="wrap_content"
-                            android:text="Nombre de la persona"
+                            android:layout_weight=".4"
                             android:padding="1dp"
+                            android:text="Nombre de la persona"
                             android:textColor="#4c4c4c"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -81,22 +87,23 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".20"
-                            android:text="Cantidad"
+                            android:text="Prestamo"
                             android:textStyle="bold" />
+
                         <TextView
+                            android:id="@+id/prestamo"
                             android:layout_width="0dp"
-                            android:id="@+id/cantidad"
                             android:layout_height="wrap_content"
-                            android:textAlignment="center"
                             android:layout_weight=".16"
-                            android:text="$3000"/>
+                            android:text="$3000"
+                            android:textAlignment="center" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -105,21 +112,23 @@
                             android:text="Saldo"
                             android:textAlignment="textEnd"
                             android:textStyle="bold" />
+
                         <TextView
-                            android:layout_width="0dp"
                             android:id="@+id/saldo"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".16"
+                            android:text="$2000"
                             android:textAlignment="center"
-                            android:textColor="@color/red_primary"
-                            android:text="$2000"/>
+                            android:textColor="@color/red_primary" />
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".16"
-                            android:textAlignment="textEnd"
                             android:text="Abonos"
-                            android:textStyle="bold"/>
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/abonos"
@@ -129,9 +138,68 @@
                             android:text="0/7"
                             android:textAlignment="center" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/hide_ly"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Saldo Inicial"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_hd_saldo_inicial"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".16"
+                            android:text="$3000"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".20"
+                            android:text="Abonado"
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_hd_abonado"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".16"
+                            android:text="$2000"
+                            android:textAlignment="center"
+                            android:textColor="@color/green_primary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".16"
+                            android:text=""
+                            android:textAlignment="textEnd"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/rf"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".13"
+                            android:text=""
+                            android:textAlignment="center" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
     </FrameLayout>
+
 </LinearLayout>

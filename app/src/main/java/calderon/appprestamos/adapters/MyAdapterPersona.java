@@ -1,5 +1,6 @@
 package calderon.appprestamos.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,14 +66,18 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         prefsID = activity.getSharedPreferences("id-"+user.getUid(), Context.MODE_PRIVATE);
     }
 
+
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position, @NonNull final Persona persona) {
+    protected void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position, @NonNull final Persona persona) {
         viewHolder.nombre.setText(persona.getNombre());
-        viewHolder.cantidad.setText(String.format(Locale.getDefault(),"$%d",persona.getCantidadPrestada()));
+        viewHolder.prestamo.setText(String.format(Locale.getDefault(),"$%d",persona.getCantidadPrestada()));
         viewHolder.fecha.setText(persona.getFecha());
         viewHolder.saldo.setText(String.format(Locale.getDefault(),"$%d",persona.getSaldo()));
         viewHolder.abonos.setText(String.format(Locale.getDefault(),"%d/%d",persona.getAbonos(), persona.getPlazos()));
+        viewHolder.saldoInicial.setText(String.format(Locale.getDefault(),"%d",persona.getPlazos()*persona.getMonto()));
+        viewHolder.abonado.setText(String.format(Locale.getDefault(),"%d",persona.getAbonado()));
         String tipo = persona.getTipo();
+        viewHolder.hideLy.setVisibility(persona.isExpanded() ? View.VISIBLE : View.GONE);
         if(tipo.equals(SEMANAL))
             viewHolder.view.setBackgroundResource(R.color.semanal);
         if(tipo.equals(QUINCENAL))
@@ -81,6 +87,14 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
             @Override
             public void onClick(View v) {
                 listener.onItemClick(persona, position);
+            }
+        });
+        viewHolder.fecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean expanded =  persona.isExpanded();
+                persona.setExpanded(!expanded);
+                notifyItemChanged(position);
             }
         });
         viewHolder.abonos.setOnClickListener(new View.OnClickListener() {
@@ -108,22 +122,28 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     class ViewHolder extends RecyclerView.ViewHolder
         implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         TextView nombre;
-        TextView cantidad;
+        TextView prestamo;
         TextView fecha;
         TextView saldo;
         TextView abonos;
+        TextView saldoInicial;
+        TextView abonado;
         CardView card;
         View view;
+        LinearLayout hideLy;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
-            cantidad = itemView.findViewById(R.id.cantidad);
+            prestamo = itemView.findViewById(R.id.prestamo);
             fecha = itemView.findViewById(R.id.fecha);
             saldo = itemView.findViewById(R.id.saldo);
             abonos = itemView.findViewById(R.id.abonos);
+            saldoInicial = itemView.findViewById(R.id.tv_hd_saldo_inicial);
+            abonado = itemView.findViewById(R.id.tv_hd_abonado);
             view = itemView.findViewById(R.id.noteColorView);
             card = itemView.findViewById(R.id.card_view_personas);
+            hideLy = itemView.findViewById(R.id.hide_ly);
             itemView.setOnCreateContextMenuListener(this);
         }
 
