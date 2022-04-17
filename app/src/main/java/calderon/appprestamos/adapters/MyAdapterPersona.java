@@ -60,8 +60,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     public MyAdapterPersona(@NonNull FirestoreRecyclerOptions<Persona> options,
                             Activity activity,
                             addClickListener listener,
-                            addClickListener listener_calculadora,
-                            addClickListener longListener) {
+                            addClickListener listener_calculadora) {
         super(options);
         this.activity = activity;
         this.listener = listener;

@@ -42,6 +42,7 @@ import java.util.Locale;
 import calderon.appprestamos.R;
 import calderon.appprestamos.adapters.MyAdapterPersona;
 import calderon.appprestamos.fragments.CompletedDialog;
+import calderon.appprestamos.fragments.ErasedDialog;
 import calderon.appprestamos.fragments.FullscreenDialog;
 import calderon.appprestamos.models.Persona;
 
@@ -138,12 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
                 Log.i("///////////////////77","$"+total);
             }
-        },
-        new MyAdapterPersona.addClickListener() {
-            @Override
-            public void onItemClick(Persona persona, int position) {
-
-            }
         });
 
         recyclerView = findViewById(R.id.rv_personas);
@@ -195,6 +190,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        if(id == R.id.action_deletes_items){
+           /* Intent intent = new Intent(this, CompletedActivity.class);
+            startActivity(intent);*/
+            DialogFragment dialog = ErasedDialog.newInstance();
+            ((ErasedDialog) dialog).setCallback(new ErasedDialog.Callback() {
+                @Override
+                public void onActionClick(String name) {
+
+                }
+            });
+            dialog.show(getSupportFragmentManager(),"tag");
+            return true;
+        }
         if(id == R.id.action_complete){
            /* Intent intent = new Intent(this, CompletedActivity.class);
             startActivity(intent);*/

@@ -33,7 +33,10 @@ public class Util {
     public static int dia;
     public static int mes;
     public static int year;
-    public static String meses[] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "novienbre", "diciembre"};
+    public static String
+
+
+            meses[] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "novienbre", "diciembre"};
     public static String mesesCortos[] = {"ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sept", "oct", "nov", "dic"};
     public static Calendar c = Calendar.getInstance();
     public final static String SEMANAL = "Semanal";
