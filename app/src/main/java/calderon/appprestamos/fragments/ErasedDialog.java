@@ -3,9 +3,11 @@ package calderon.appprestamos.fragments;
 import static calderon.appprestamos.Util.Util.BORRADOS;
 import static calderon.appprestamos.Util.Util.COMPLETADOS;
 import static calderon.appprestamos.Util.Util.ID;
+import static calderon.appprestamos.Util.Util.PERSONA;
 import static calderon.appprestamos.Util.Util.TOTAL_COMPLETADO;
 import static calderon.appprestamos.Util.Util.USUARIOS;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,8 @@ import com.google.firebase.firestore.Query;
 import java.util.Locale;
 
 import calderon.appprestamos.R;
+import calderon.appprestamos.activities.DetailsActivity;
+import calderon.appprestamos.activities.MainActivity;
 import calderon.appprestamos.adapters.MyAdapterCompleted;
 import calderon.appprestamos.adapters.MyAdapterPersona;
 import calderon.appprestamos.models.Completado;
@@ -95,7 +99,18 @@ public class ErasedDialog extends DialogFragment {
                 .Builder<Persona>()
                 .setQuery(query, Persona.class)
                 .build();
-        myAdapterPersona = new MyAdapterPersona(options, getActivity(),null,null);
+        myAdapterPersona = new MyAdapterPersona(options, getActivity(),new MyAdapterPersona.addClickListener() {
+            @Override
+            public void onItemClick(Persona persona, int position) {
+                Intent intent = new Intent(getContext(),DetailsActivity.class);
+                intent.putExtra(ID, persona.getId());
+                intent.putExtra(PERSONA, persona);
+                intent.putExtra(BORRADOS, true);
+                // To retrieve object in second Activity
+                getActivity().getIntent().getSerializableExtra("MyClass");
+                startActivity(intent);
+            }
+        },null,true);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

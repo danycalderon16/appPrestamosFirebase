@@ -85,6 +85,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private Persona persona;
 
     private boolean exitoso;
+    private boolean borrado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +98,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         if (bundle!=null) {
             id = bundle.getInt(ID);
             persona = (Persona) bundle.getSerializable(PERSONA);
+            borrado = bundle.getBoolean(BORRADOS);
         }
         sendBind();
         setToolbar();
@@ -135,6 +137,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @SuppressLint("RestrictedApi")
     private void sendBind() {
         toolbar = findViewById(R.id.toolbar);
         title = findViewById(R.id.toolbar_title);
@@ -154,6 +157,11 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         fabAbono.setOnClickListener(this);
         fechaPick.setOnClickListener(this);
+
+        if (borrado){
+            fabAbono.setVisibility(View.GONE);
+            etAbono.setEnabled(false);
+        }
 
         final Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
         final Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
@@ -226,6 +234,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.findItem(R.id.action_complete).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_black_24dp));
+        if(borrado)
+            menu.findItem(R.id.action_complete).setVisible(false);
         menu.findItem(R.id.action_logout).setVisible(false);
         menu.findItem(R.id.action_deletes_items).setVisible(false);
         return super.onCreateOptionsMenu(menu);

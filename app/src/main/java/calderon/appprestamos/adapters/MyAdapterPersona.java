@@ -56,16 +56,18 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
     private addClickListener listener;
     private addClickListener listener_calculadora;
     private addClickListener longListener;
+    private boolean borrado;
 
     public MyAdapterPersona(@NonNull FirestoreRecyclerOptions<Persona> options,
                             Activity activity,
                             addClickListener listener,
-                            addClickListener listener_calculadora) {
+                            addClickListener listener_calculadora,
+                            boolean borrado) {
         super(options);
         this.activity = activity;
         this.listener = listener;
         this.listener_calculadora = listener_calculadora;
-        this.longListener = longListener;
+        this.borrado = borrado;
         prefsID = activity.getSharedPreferences("id-" + user.getUid(), Context.MODE_PRIVATE);
     }
 
@@ -101,19 +103,21 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                 notifyItemChanged(position);
             }
         });
-        viewHolder.abonos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener_calculadora.onItemClick(persona, position);
-            }
-        });
-        viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                longListener.onItemClick(persona, position);
-                return false;
-            }
-        });
+        if (!borrado) {
+            viewHolder.abonos.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener_calculadora.onItemClick(persona, position);
+                }
+            });
+            viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    longListener.onItemClick(persona, position);
+                    return false;
+                }
+            });
+        }
     }
 
     @NonNull

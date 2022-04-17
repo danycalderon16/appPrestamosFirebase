@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                 intent.putExtra(ID, persona.getId());
                 intent.putExtra(PERSONA, persona);
+                intent.putExtra(BORRADOS, false);
                 // To retrieve object in second Activity
                 getIntent().getSerializableExtra("MyClass");
                 startActivity(intent);
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
                 Log.i("///////////////////77","$"+total);
             }
-        });
+        },false);
 
         recyclerView = findViewById(R.id.rv_personas);
         recyclerView.setHasFixedSize(true);
