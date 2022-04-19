@@ -5,14 +5,16 @@
     <item
         android:id="@+id/action_complete"
         android:title="Completado"
-        android:icon="@drawable/ic_assessment_black_24dp"
+        android:icon="@drawable/ic_stats"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_deletes_items"
         android:title="Borrados"
-        app:showAsAction="collapseActionView"/>
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_logout"
         android:title="Salir"
-        app:showAsAction="collapseActionView"/>
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="ifRoom"/>
 </menu>

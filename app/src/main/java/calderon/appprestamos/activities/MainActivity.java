@@ -133,14 +133,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         },
-        new MyAdapterPersona.addClickListener() {
+                new MyAdapterPersona.addClickListener() {
+                    @Override
+                    public void onItemClick(Persona persona, int position) {
+                        total += persona.getMonto();
+                        calculadora.setText(String.format(Locale.getDefault(), "$%d", total));
+                        Log.i("///////////////////77", "$" + total);
+                    }
+                }, new MyAdapterPersona.addClickListener() {
             @Override
             public void onItemClick(Persona persona, int position) {
-                total += persona.getMonto();
-                calculadora.setText(String.format(Locale.getDefault(),"$%d",total));
-                Log.i("///////////////////77","$"+total);
+
             }
-        },false);
+        }, false);
 
         recyclerView = findViewById(R.id.rv_personas);
         recyclerView.setHasFixedSize(true);

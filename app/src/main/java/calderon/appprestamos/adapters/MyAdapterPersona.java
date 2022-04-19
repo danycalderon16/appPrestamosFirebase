@@ -62,11 +62,13 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                             Activity activity,
                             addClickListener listener,
                             addClickListener listener_calculadora,
+                            addClickListener longListener,
                             boolean borrado) {
         super(options);
         this.activity = activity;
         this.listener = listener;
         this.listener_calculadora = listener_calculadora;
+        this.longListener = longListener;
         this.borrado = borrado;
         prefsID = activity.getSharedPreferences("id-" + user.getUid(), Context.MODE_PRIVATE);
     }
@@ -110,7 +112,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                     listener_calculadora.onItemClick(persona, position);
                 }
             });
-            viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
+           viewHolder.card.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     longListener.onItemClick(persona, position);
@@ -169,6 +171,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             if (item.getItemId() == R.id.delete) {
+                Log.i("Long","onMenuItemClick");
                 showConfirmDeleteDiaglog();
                 return true;
             }
@@ -183,68 +186,13 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            saveErasedInFS(getAdapterPosition());
                             deleteInBD(getAdapterPosition());
                         }
                     });
             builder.setNeutralButton("TEST", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    final String id = getSnapshots().getSnapshot(getAdapterPosition()).getReference().getId();
-
-
-                    DocumentReference doc = db.collection(USUARIOS)
-                            .document(user.getUid())
-                            .collection(PRESTAMOS)
-                            .document(id);
-                    doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    DocumentReference docRef = db.collection(USUARIOS)
-                                            .document(user.getUid())
-                                            .collection(BORRADOS)
-                                            .document(id);
-                                    docRef.set(document.getData()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            int  noAbobos = 0;
-                                            noAbobos = document.getLong(ABONOS).intValue();
-                                            Log.i("#########", "DocumentSnapshot data: " + document.getData());
-                                            int finalNoAbobos = noAbobos;
-                                            doc.collection(ABONOS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    int i = 0;
-                                                    while(i<finalNoAbobos){
-                                                        String idRef = task.getResult().getDocuments().get(i).getId();
-                                                        docRef.collection(ABONOS)
-                                                                .document(idRef)
-                                                                .set(task.getResult().getDocuments().get(i).getData())
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                    Log.i("### abono agregado bo","exito");
-
-                                                                    }
-                                                                });
-                                                        i++;
-                                                    }
-                                                }
-                                            });
-                                            Log.i("### borrado","exito");
-
-                                        }
-                                    });
-                                } else {
-                                    Log.i("#########", "No such document");
-                                }
-                            } else {
-                                Log.i("#########", "get failed with ", task.getException());
-                            }
-                        }
-                    });
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -256,6 +204,65 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+    }
+
+    public void saveErasedInFS(int position){
+        final String id = getSnapshots().getSnapshot(position).getReference().getId();
+
+        DocumentReference doc = db.collection(USUARIOS)
+                .document(user.getUid())
+                .collection(PRESTAMOS)
+                .document(id);
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        DocumentReference docRef = db.collection(USUARIOS)
+                                .document(user.getUid())
+                                .collection(BORRADOS)
+                                .document(id);
+                        docRef.set(document.getData()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                int  noAbobos = 0;
+                                noAbobos = document.getLong(ABONOS).intValue();
+                                Log.i("#########", "DocumentSnapshot data: " + document.getData());
+                                int finalNoAbobos = noAbobos;
+                                doc.collection(ABONOS).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        int i = 0;
+                                        while(i<finalNoAbobos){
+                                            String idRef = task.getResult().getDocuments().get(i).getId();
+                                            docRef.collection(ABONOS)
+                                                    .document(idRef)
+                                                    .set(task.getResult().getDocuments().get(i).getData())
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Log.i("### abono agregado bo","exito");
+
+                                                        }
+                                                    });
+                                            i++;
+                                        }
+                                    }
+                                });
+                                Log.i("### borrado","exito");
+
+                            }
+                        });
+                    } else {
+                        Log.i("#########", "No such document");
+                    }
+                } else {
+                    Log.i("#########", "get failed with ", task.getException());
+                }
+            }
+        });
+
     }
 
     public void deleteInBD(final int position) {

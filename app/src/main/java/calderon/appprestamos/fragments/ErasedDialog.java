@@ -110,7 +110,7 @@ public class ErasedDialog extends DialogFragment {
                 getActivity().getIntent().getSerializableExtra("MyClass");
                 startActivity(intent);
             }
-        },null,true);
+        },null,null,true);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
