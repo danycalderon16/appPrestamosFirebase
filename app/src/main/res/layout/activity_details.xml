@@ -237,6 +237,7 @@
                     android:textColor="@color/text_secondary"
                     android:text="16 de nov del 2020" />
                 <TextView
+                    android:id="@+id/tv_abono"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight=".25"

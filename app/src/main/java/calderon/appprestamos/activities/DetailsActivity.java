@@ -76,6 +76,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private TextView tvSaldoInicai;
     private TextView tvAbonos;
     private TextView tvAbonado;
+    private TextView tvAbono;
     private TextView tvTipo;
     private TextView changeMethod;
 
@@ -151,12 +152,15 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         etAbono = findViewById(R.id.abono);
         recyclerView = findViewById(R.id.rvDetails);
         tvAbonos = findViewById(R.id.abonosDetails);
+        tvAbono = findViewById(R.id.tv_abono);
         tvAbonado = findViewById(R.id.abonado_details);
 
         changeMethod = findViewById(R.id.changeMethod);
 
         fabAbono.setOnClickListener(this);
         fechaPick.setOnClickListener(this);
+
+        tvAbono.setOnClickListener(this);
 
         if (borrado){
             fabAbono.setVisibility(View.GONE);
@@ -351,6 +355,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.fechaDetailsPick:
                 setDate(this, fechaPick,"");
+                break;
+            case R.id.tv_abono:
+                Log.i("CLICK",persona.getMonto()+"");
+                etAbono.setText(persona.getMonto()+"");
                 break;
         }
     }
