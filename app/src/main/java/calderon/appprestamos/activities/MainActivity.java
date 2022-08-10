@@ -225,21 +225,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(id == R.id.action_logout){
-            GoogleSignInClient mGoogleSignInClient;
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build();
 
-            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-            auth.signOut();
-            mGoogleSignInClient.signOut();
-            mGoogleSignInClient.revokeAccess();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setMessage("¿Está seguro de cerrar sesión?");
+            builder.setPositiveButton("Sí",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            signOff();
+                        }
+                    });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void signOff() {
+        GoogleSignInClient mGoogleSignInClient;
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        auth.signOut();
+        mGoogleSignInClient.signOut();
+        mGoogleSignInClient.revokeAccess();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 
