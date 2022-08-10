@@ -343,6 +343,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 });
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -357,8 +358,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 setDate(this, fechaPick,"");
                 break;
             case R.id.tv_abono:
-                Log.i("CLICK",persona.getMonto()+"");
+                final Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
                 etAbono.setText(persona.getMonto()+"");
+                fabAbono.setVisibility(View.VISIBLE);
+                fabAbono.startAnimation(slideUp);
                 break;
         }
     }
