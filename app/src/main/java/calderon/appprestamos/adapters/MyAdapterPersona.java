@@ -181,7 +181,12 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
         public void showConfirmDeleteDiaglog() {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setCancelable(true);
-            builder.setMessage("¿Desea borrar prestamo?");
+            String message = String.format(Locale.getDefault(),
+                    "¿Desea borrar el prestamo de %s por $%d",
+                    getSnapshots().getSnapshot(getAdapterPosition()).get(NOMBRE).toString().trim(),
+                    getSnapshots().getSnapshot(getAdapterPosition()).getLong(CANTIDAD_PRESTADA));
+            Log.i("mensaje",message);
+            builder.setMessage(message);
             builder.setPositiveButton("Sí",
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -190,11 +195,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                             deleteInBD(getAdapterPosition());
                         }
                     });
-            builder.setNeutralButton("TEST", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -310,6 +311,7 @@ public class MyAdapterPersona extends FirestoreRecyclerAdapter<Persona, MyAdapte
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Log.i("///////////7", "Atualizado");
                                         getSnapshots().getSnapshot(position).getReference().delete();
+
                                         //Toast.makeText(activity, , Toast.LENGTH_SHORT).show();
                                         View v = (activity).findViewById(R.id.fab);
                                         Snackbar.make(v, "Borrado exitoso", Snackbar.LENGTH_SHORT).show();
